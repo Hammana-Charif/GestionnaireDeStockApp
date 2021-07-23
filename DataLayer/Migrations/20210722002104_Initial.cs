@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
@@ -7,6 +7,24 @@ namespace DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    AddressId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumeroVoieEtablissement = table.Column<string>(nullable: true),
+                    TypeVoieEtablissement = table.Column<string>(nullable: true),
+                    LibelleVoieEtablissement = table.Column<string>(nullable: true),
+                    LibelleCommuneEtablissement = table.Column<string>(nullable: true),
+                    CodeCommuneEtablissement = table.Column<string>(nullable: true),
+                    LibellePaysEtrangerEtablissement = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.AddressId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "GiftCheques",
                 columns: table => new
@@ -84,6 +102,35 @@ namespace DataLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    CompanyId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Siren = table.Column<string>(nullable: true),
+                    Nic = table.Column<string>(nullable: true),
+                    DateCreationEtablissement = table.Column<string>(nullable: true),
+                    DenominationUniteLegale = table.Column<string>(nullable: true),
+                    ActivitePrincipaleUniteLegale = table.Column<string>(nullable: true),
+                    DenominationUsuelle1UniteLegale = table.Column<string>(nullable: true),
+                    NomenclatureActivitePrincipaleUniteLegale = table.Column<string>(nullable: true),
+                    SigleUniteLegale = table.Column<string>(nullable: true),
+                    CategorieJuridiqueUniteLegale = table.Column<string>(nullable: true),
+                    TrancheEffectifsUniteLegale = table.Column<string>(nullable: true),
+                    AdresseEtablissementAddressId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.CompanyId);
+                    table.ForeignKey(
+                        name: "FK_Companies_Addresses_AdresseEtablissementAddressId",
+                        column: x => x.AdresseEtablissementAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,6 +254,11 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Companies_AdresseEtablissementAddressId",
+                table: "Companies",
+                column: "AdresseEtablissementAddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Discounts_ProductLineId",
                 table: "Discounts",
                 column: "ProductLineId");
@@ -240,6 +292,9 @@ namespace DataLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Companies");
+
+            migrationBuilder.DropTable(
                 name: "Discounts");
 
             migrationBuilder.DropTable(
@@ -259,6 +314,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "ProductLines");

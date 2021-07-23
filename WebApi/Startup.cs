@@ -27,7 +27,7 @@ namespace WebApi
         {
             services.AddControllers();
             services.AddDbContext<StockContext>();
-            services.AddMvc(o => o.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(o => o.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddOData();
         }
 
@@ -54,6 +54,7 @@ namespace WebApi
         {
             var odataBuilder = new ODataConventionModelBuilder();
             odataBuilder.EntitySet<User>("Users");
+            odataBuilder.EntitySet<Company>("Companies");
 
             return odataBuilder.GetEdmModel();
         }

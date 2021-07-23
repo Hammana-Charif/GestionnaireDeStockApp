@@ -10,16 +10,93 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(StockContext))]
-    [Migration("20200714095204_Initial")]
+    [Migration("20210722002104_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("ProductVersion", "3.1.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("DataTransfertObject.Address", b =>
+                {
+                    b.Property<int>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodeCommuneEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LibelleCommuneEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LibellePaysEtrangerEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LibelleVoieEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroVoieEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeVoieEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AddressId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("DataTransfertObject.Company", b =>
+                {
+                    b.Property<int>("CompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ActivitePrincipaleUniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AdresseEtablissementAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategorieJuridiqueUniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateCreationEtablissement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DenominationUniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DenominationUsuelle1UniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomenclatureActivitePrincipaleUniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SigleUniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Siren")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrancheEffectifsUniteLegale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CompanyId");
+
+                    b.HasIndex("AdresseEtablissementAddressId");
+
+                    b.ToTable("Companies");
+                });
 
             modelBuilder.Entity("DataTransfertObject.DataGridView.GiftCheque", b =>
                 {
@@ -280,6 +357,13 @@ namespace DataLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("DataTransfertObject.Company", b =>
+                {
+                    b.HasOne("DataTransfertObject.Address", "AdresseEtablissement")
+                        .WithMany()
+                        .HasForeignKey("AdresseEtablissementAddressId");
                 });
 
             modelBuilder.Entity("DataTransfertObject.Discount", b =>

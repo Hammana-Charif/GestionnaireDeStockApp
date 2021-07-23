@@ -20,7 +20,7 @@ namespace BusinessLogicLayer
             MakeAChequePayment(invoiceManager, paymentType, payment);
             MakeAGiftChequePayment(invoiceManager, paymentType, payment);
 
-            payment.TotalPayment = payment.CBPayment + payment.MoneyPayment + payment.ChequePayment;
+            payment.TotalPayment = payment.CBPayment + payment.MoneyPayment + payment.ChequePayment + payment.GiftChequePayment;
 
             return payment.TotalPayment;
         }

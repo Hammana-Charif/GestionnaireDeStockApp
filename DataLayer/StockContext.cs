@@ -1,5 +1,4 @@
-﻿
-using DataTransfertObject;
+﻿using DataTransfertObject;
 using DataTransfertObject.DataGridView;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,12 +16,14 @@ namespace DataLayer
         public DbSet<ProductLine> ProductLines { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<GiftCheque> GiftCheques { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=StockDB;Integrated Security=True;");
-            optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\raikh\OneDrive\Documents\stock_gest_app.mdf;Integrated Security=True;Connect Timeout=30");
+            optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\raikh\StockDB.mdf;Integrated Security=True;Connect Timeout=30");
         }
     }
 }
