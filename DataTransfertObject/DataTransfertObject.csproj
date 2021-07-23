@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>Raikho</Authors>
+    <PackageId>DataTransfertObject_Raikho</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
