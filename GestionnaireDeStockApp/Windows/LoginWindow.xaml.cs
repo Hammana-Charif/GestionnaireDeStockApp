@@ -10,7 +10,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class LoginWindow : Window
     {
-        bool UserNameTxtBoxClick, PasswordTxtBoxClick;
+        private bool UserNameTxtBoxClick, PasswordTxtBoxClick;
 
         public LoginWindow()
         {
@@ -19,7 +19,7 @@ namespace GestionnaireDeStockApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (LoginManager.LoginSession.ConnectionState == true)
+            if (LoginManager.LoginSession.ConnectionState)
             {
                 Close();
             }
@@ -36,7 +36,7 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Escape || e.Key == Key.F6)
             {
-                if (LoginManager.LoginSession.ConnectionState == true)
+                if (LoginManager.LoginSession.ConnectionState)
                 {
                     Close();
                 }
@@ -73,7 +73,7 @@ namespace GestionnaireDeStockApp
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             AccountCreationWindow accountCreationWindow = new AccountCreationWindow();
-            accountCreationWindow.ShowDialog();
+            _ = accountCreationWindow.ShowDialog();
             Close();
         }
 
@@ -124,13 +124,13 @@ namespace GestionnaireDeStockApp
             }
             catch (System.Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
         private void ClearTheUserNameTxtBoxBlock()
         {
-            if (UserNameTxtBoxClick == true)
+            if (UserNameTxtBoxClick)
             {
                 UserNameTxtBox.Text = string.Empty;
                 UserNameTxtBox.Foreground = new SolidColorBrush(Colors.White);
@@ -141,7 +141,7 @@ namespace GestionnaireDeStockApp
 
         private void ClearThePasswordTxtBoxBlock()
         {
-            if (PasswordTxtBoxClick == true)
+            if (PasswordTxtBoxClick)
             {
                 PasswordTxtBox.Clear();
                 PasswordTxtBox.Foreground = new SolidColorBrush(Colors.White);

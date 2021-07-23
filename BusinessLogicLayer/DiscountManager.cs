@@ -9,16 +9,9 @@ namespace BusinessLogicLayer
         public int SetTheDiscountId(Invoice ticket)
         {
             int value = 0;
-            foreach (var producLine in ticket.ProductLines)
+            foreach (ProductLine producLine in ticket.ProductLines)
             {
-                if (producLine.Discounts.Count == 0)
-                {
-                    value = 0;
-                }
-                else
-                {
-                    value = producLine.Discounts.Last().DiscountJoinId + 1;
-                }
+                value = producLine.Discounts.Count == 0 ? 0 : producLine.Discounts.Last().DiscountJoinId + 1;
             }
             return value;
         }
@@ -26,9 +19,9 @@ namespace BusinessLogicLayer
         public Discount SetADiscount(Invoice ticket, ObservableCollection<Discount> totalDiscountsList)
         {
             Discount discount = null;
-            foreach (var producLine in ticket.ProductLines)
+            foreach (ProductLine producLine in ticket.ProductLines)
             {
-                foreach (var discountToAdd in producLine.Discounts)
+                foreach (Discount discountToAdd in producLine.Discounts)
                 {
                     discount = discountToAdd;
                     totalDiscountsList.Add(discount);

@@ -16,14 +16,14 @@ namespace GestionnaireDeStockApp
         public ArticlesListManagementPage()
         {
             InitializeComponent();
-            SearchTextBox.Focus();
+            _ = SearchTextBox.Focus();
             ProductsDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
         }
 
         private void AddANewArticleButton_Click(object sender, RoutedEventArgs e)
         {
             AddAnArticleWindow addAnArticleWindow = new AddAnArticleWindow();
-            addAnArticleWindow.ShowDialog();
+            _ = addAnArticleWindow.ShowDialog();
             ReloadDataGrid();
         }
 
@@ -37,14 +37,14 @@ namespace GestionnaireDeStockApp
             try
             {
                 ProductViewManager productViewManager = new ProductViewManager();
-                productViewManager.SelectAProductByRow((ProductView)ProductsDataGrid.CurrentCell.Item);
+                _ = productViewManager.SelectAProductByRow((ProductView)ProductsDataGrid.CurrentCell.Item);
                 EditAnArticleWindow editAnArticleWindow = new EditAnArticleWindow();
-                editAnArticleWindow.ShowDialog();
+                _ = editAnArticleWindow.ShowDialog();
                 ReloadDataGrid();
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -124,15 +124,15 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var input = CheckInputService.CheckStringTypeInput(SearchTextBox);
-                if (input == true)
+                bool input = CheckInputService.CheckStringTypeInput(SearchTextBox);
+                if (input)
                 {
                     ProductsDataGrid.ItemsSource = ProductManager.GetProductByGlobalResearch(SearchTextBox.Text);
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -140,15 +140,15 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var priceChecked = CheckInputService.CheckDoubleIntervalNumber(SearchMinPriceTxtBox, SearchMaxPriceTxtBox);
-                if (priceChecked == true)
+                bool priceChecked = CheckInputService.CheckDoubleIntervalNumber(SearchMinPriceTxtBox, SearchMaxPriceTxtBox);
+                if (priceChecked)
                 {
                     ProductsDataGrid.ItemsSource = ProductManager.GetProductByPriceInterval(SearchMinPriceTxtBox.Text, SearchMaxPriceTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -165,7 +165,7 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
     }

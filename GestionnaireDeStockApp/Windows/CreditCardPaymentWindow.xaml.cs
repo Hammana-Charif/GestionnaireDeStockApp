@@ -19,7 +19,7 @@ namespace GestionnaireDeStockApp
             InitializeComponent();
 
             CBTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
-            CBTxtBox.Focus();
+            _ = CBTxtBox.Focus();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -82,7 +82,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CheckInputService.CheckDoubleTypeInput(CBTxtBox);
+                _ = CheckInputService.CheckDoubleTypeInput(CBTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || CBTxtBox.Text == "")
                 {
                     CbAmount = 0;
@@ -95,14 +95,14 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
 
         }
 
         private void CBTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
     }
 }

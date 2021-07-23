@@ -22,8 +22,7 @@ namespace DataLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=StockDB;Integrated Security=True;");
-            optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\raikh\StockDB.mdf;Integrated Security=True;Connect Timeout=30");
+            _ = optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\raikh\StockDB.mdf;Integrated Security=True;Connect Timeout=30");
         }
     }
 }

@@ -17,7 +17,7 @@ namespace GestionnaireDeStockApp.Pages
         public InventoryManagementPage()
         {
             InitializeComponent();
-            SearchTextBox.Focus();
+            _ = SearchTextBox.Focus();
             ProductsDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
         }
 
@@ -102,15 +102,15 @@ namespace GestionnaireDeStockApp.Pages
         {
             try
             {
-                var input = CheckInputService.CheckStringTypeInput(SearchTextBox);
-                if (input == true)
+                bool input = CheckInputService.CheckStringTypeInput(SearchTextBox);
+                if (input)
                 {
                     ProductsDataGrid.ItemsSource = ProductManager.GetProductByGlobalResearch(SearchTextBox.Text);
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -118,24 +118,24 @@ namespace GestionnaireDeStockApp.Pages
         {
             try
             {
-                var priceChecked = CheckInputService.CheckDoubleIntervalNumber(SearchMinPriceTxtBox, SearchMaxPriceTxtBox);
-                if (priceChecked == true)
+                bool priceChecked = CheckInputService.CheckDoubleIntervalNumber(SearchMinPriceTxtBox, SearchMaxPriceTxtBox);
+                if (priceChecked)
                 {
                     ProductsDataGrid.ItemsSource = ProductManager.GetProductByPriceInterval(SearchMinPriceTxtBox.Text, SearchMaxPriceTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
         private void EditAProductQuantityButton_Click(object sender, RoutedEventArgs e)
         {
             ProductViewManager productViewManager = new ProductViewManager();
-            productViewManager.SelectAProductByRow((ProductView)ProductsDataGrid.CurrentCell.Item);
+            _ = productViewManager.SelectAProductByRow((ProductView)ProductsDataGrid.CurrentCell.Item);
             InventoryAdjustmentWindow inventoryAdjustmentWindow = new InventoryAdjustmentWindow();
-            inventoryAdjustmentWindow.ShowDialog();
+            _ = inventoryAdjustmentWindow.ShowDialog();
         }
 
         private void ValidateAQuantityButton_Click(object sender, RoutedEventArgs e)

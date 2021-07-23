@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using DataTransfertObject;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -109,7 +110,7 @@ namespace GestionnaireDeStockApp
 
         private void EditExclTaxPriceTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
 
         private void EditExclTaxPriceTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
@@ -187,7 +188,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var selectedItem = ProductViewManager.CurrentItemSelected;
+                ProductView selectedItem = ProductViewManager.CurrentItemSelected;
 
                 EditRefTxtBox.Text = selectedItem.Reference;
                 EditNameTxtBox.Text = selectedItem.Name;
@@ -197,7 +198,7 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -207,10 +208,10 @@ namespace GestionnaireDeStockApp
             {
                 if (MessageBox.Show("Etes-vous sûr de vouloir modifié cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    var checkedChar = CheckInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockInfo);
+                    bool checkedChar = CheckInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockInfo);
                     if (checkedChar == false)
                     {
-                        MessageBox.Show("Une erreur de saisie est survenue.");
+                        _ = MessageBox.Show("Une erreur de saisie est survenue.");
                         SelectAnArticle();
                     }
                     else
@@ -231,7 +232,7 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
     }

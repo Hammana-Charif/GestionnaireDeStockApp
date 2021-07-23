@@ -20,22 +20,22 @@ namespace Repository
 
         public void Insert(T obj)
         {
-            dbContext.GetConnection().Set<T>().Add(obj);
+            _ = dbContext.GetConnection().Set<T>().Add(obj);
         }
 
         public void Delete(T obj)
         {
-            dbContext.GetConnection().Set<T>().Remove(obj);
+            _ = dbContext.GetConnection().Set<T>().Remove(obj);
         }
 
         public void Save()
         {
-            dbContext.GetConnection().SaveChanges();
+            _ = dbContext.GetConnection().SaveChanges();
         }
 
         public void Update(T obj)
         {
-            dbContext.GetConnection().Set<T>().Update(obj);
+            _ = dbContext.GetConnection().Set<T>().Update(obj);
         }
     }
 }

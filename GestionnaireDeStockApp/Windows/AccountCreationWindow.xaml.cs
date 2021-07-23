@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer;
 using DataLayer;
 using DataTransfertObject;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +15,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AccountCreationWindow : Window
     {
-        bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick;
+        private bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick;
 
         public AccountCreationWindow()
         {
@@ -34,14 +35,14 @@ namespace GestionnaireDeStockApp
                 if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     Close();
-                    new MainWindow();
+                    _ = new MainWindow();
                 }
             }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (LoginManager.LoginSession.ConnectionState == true)
+            if (LoginManager.LoginSession.ConnectionState)
             {
                 if (e.Key == Key.Escape || e.Key == Key.F7)
                 {
@@ -55,7 +56,7 @@ namespace GestionnaireDeStockApp
                     if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         Close();
-                        new MainWindow();
+                        _ = new MainWindow();
                     }
                 }
             }
@@ -159,37 +160,35 @@ namespace GestionnaireDeStockApp
                     || CreatePWTxtBoxClick == false
                     || ConfirmPWTxtBoxClick == false)
                 {
-                    MessageBox.Show("Merci de remplir tous les champs.");
+                    _ = MessageBox.Show("Merci de remplir tous les champs.");
                 }
                 else if (CreatePWTxtBox.Password != ConfirmPWTxtBox.Password)
                 {
-                    MessageBox.Show("Le mot de passe n'est pas identique.");
+                    _ = MessageBox.Show("Le mot de passe n'est pas identique.");
                 }
                 else
                 {
-                    using (var dbContext = new StockContext())
+                    using StockContext dbContext = new StockContext();
+                    DbSet<User> users = dbContext.Users;
+
+                    User newUser = new User()
                     {
-                        var users = dbContext.Users;
+                        Name = NameTxtBox.Text,
+                        Surname = SurNameTxtBox.Text,
+                        Username = CreateIDTxtBox.Text,
+                        Password = CreatePWTxtBox.Password
+                    };
+                    _ = users.Add(newUser);
+                    _ = dbContext.SaveChanges();
 
-                        var newUser = new User()
-                        {
-                            Name = NameTxtBox.Text,
-                            Surname = SurNameTxtBox.Text,
-                            Username = CreateIDTxtBox.Text,
-                            Password = CreatePWTxtBox.Password
-                        };
-                        users.Add(newUser);
-                        dbContext.SaveChanges();
-
-                        MessageBox.Show("Profil crée avec succés!");
-                        Close();
-                        new MainWindow();
-                    }
+                    _ = MessageBox.Show("Profil crée avec succés!");
+                    Close();
+                    _ = new MainWindow();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 

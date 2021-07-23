@@ -11,19 +11,19 @@ namespace BusinessLogicLayer
 
         public static List<ProductView> JoinProductAndProductStockTables()
         {
-            var dbContext = new StockContext();
-            var Join = (from p in dbContext.Products
-                        join s in dbContext.ProductStocks
-                        on p.ProductId equals s.ProductStockId
-                        select new ProductView
-                        {
-                            ProductId = p.ProductId,
-                            Reference = p.Reference,
-                            Name = p.Name,
-                            ExclTaxPrice = p.ExclTaxPrice,
-                            Price = p.Price,
-                            Quantity = s.Quantity
-                        }).ToList();
+            StockContext dbContext = new StockContext();
+            List<ProductView> Join = (from p in dbContext.Products
+                                      join s in dbContext.ProductStocks
+                                        on p.ProductId equals s.ProductStockId
+                                      select new ProductView
+                                      {
+                                          ProductId = p.ProductId,
+                                          Reference = p.Reference,
+                                          Name = p.Name,
+                                          ExclTaxPrice = p.ExclTaxPrice,
+                                          Price = p.Price,
+                                          Quantity = s.Quantity
+                                      }).ToList();
             return Join;
         }
 

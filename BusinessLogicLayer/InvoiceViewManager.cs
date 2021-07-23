@@ -9,7 +9,7 @@ namespace BusinessLogicLayer
         public InvoiceView SetAProductLine(IEnumerable<InvoiceView> join, ObservableCollection<InvoiceView> invoiceViewsList)
         {
             InvoiceView invoiceView = null;
-            foreach (var invoiceViewToSearch in join)
+            foreach (InvoiceView invoiceViewToSearch in join)
             {
                 invoiceView = invoiceViewToSearch;
                 invoiceViewsList.Add(invoiceView);

@@ -46,7 +46,7 @@ namespace GestionnaireDeStockApp
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
-            SetAParamPack();
+            _ = SetAParamPack();
         }
 
         private void QuantParamTxtBox_GotFocus(object sender, RoutedEventArgs e)
@@ -59,7 +59,7 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Enter)
             {
-                SetAParamPack();
+                _ = SetAParamPack();
             }
         }
 
@@ -75,7 +75,7 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Enter)
             {
-                SetAParamPack();
+                _ = SetAParamPack();
             }
         }
 
@@ -91,7 +91,7 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Enter)
             {
-                SetAParamPack();
+                _ = SetAParamPack();
             }
         }
 
@@ -123,8 +123,8 @@ namespace GestionnaireDeStockApp
             SetPourcentDiscountParamater();
             SetDiscountParameter();
 
-            var paramBool = SetSaleParameter();
-            if (paramBool == true && SalesParameter.Quantity != 0)
+            bool paramBool = SetSaleParameter();
+            if (paramBool && SalesParameter.Quantity != 0)
             {
                 Close();
                 return RightParameters = true;
@@ -140,7 +140,7 @@ namespace GestionnaireDeStockApp
             bool paramater = false;
             if (CheckInputService.CorrectPickedChara == false || SalesParameter.Quantity == 0)
             {
-                MessageBox.Show("Veuillez saisir une quantité.");
+                _ = MessageBox.Show("Veuillez saisir une quantité.");
                 paramater = false;
             }
             else
@@ -155,7 +155,7 @@ namespace GestionnaireDeStockApp
         
         private void SetQuantityParameter()
         {
-            CheckInputService.CheckDoubleTypeInput(QuantParamTxtBox);
+            _ = CheckInputService.CheckDoubleTypeInput(QuantParamTxtBox);
             if (CheckInputService.CorrectPickedChara == false || QuantParamTxtBox.Text == "")
             {
                 QuantityParameter = 0;
@@ -169,7 +169,7 @@ namespace GestionnaireDeStockApp
 
         private void SetPourcentDiscountParamater()
         {
-            CheckInputService.CheckDoubleTypeInput(PourcentDiscountTxtBox);
+            _ = CheckInputService.CheckDoubleTypeInput(PourcentDiscountTxtBox);
             if (CheckInputService.CorrectPickedChara == false || PourcentDiscountTxtBox.Text == "")
             {
                 PourcentDiscountParamater = 0;
@@ -183,7 +183,7 @@ namespace GestionnaireDeStockApp
 
         private void SetDiscountParameter()
         {
-            CheckInputService.CheckDoubleTypeInput(DiscountTxtBox);
+            _ = CheckInputService.CheckDoubleTypeInput(DiscountTxtBox);
             if (CheckInputService.CorrectPickedChara == false || DiscountTxtBox.Text == "")
             {
                 DiscountParameter = 0;

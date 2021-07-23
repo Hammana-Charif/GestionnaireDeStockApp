@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataTransfertObject;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -11,32 +12,21 @@ namespace BusinessLogicLayer
     public class InvoiceManager
     {
         public ObservableCollection<PaymentMethod> PaymentMethods { get; set; } = new ObservableCollection<PaymentMethod>();
-
         public StockContext Invoices { get; set; } = new StockContext();
-
         public Invoice Ticket { get; set; } = new Invoice();
 
         public List<Invoice> LoadInvoiceDataBase()
         {
-            var invoiceList = new InvoiceRepository();
+            InvoiceRepository invoiceList = new InvoiceRepository();
             return invoiceList.GetAll().ToList();
-
-            //List<Invoice> invoicesList = new List<Invoice>();
-            //var dbContext = Invoices;
-            //var invoicesStore = dbContext.Invoices;
-            //foreach (var invoice in invoicesStore)
-            //{
-            //    invoicesList.Add(invoice);
-            //}
-            //return invoicesList;
         }
 
         public Invoice SaveInvoiceToDataBase()
         {
-            var dbContext = Invoices;
-            var invoiceList = dbContext.Invoices;
-            invoiceList.Add(Ticket);
-            dbContext.SaveChanges();
+            StockContext dbContext = Invoices;
+            DbSet<Invoice> invoiceList = dbContext.Invoices;
+            _ = invoiceList.Add(Ticket);
+            _ = dbContext.SaveChanges();
             return Ticket;
         }
 
@@ -50,11 +40,11 @@ namespace BusinessLogicLayer
         {
             ClearAllInvoiceSetup(cashRegisterManager);
 
-            var sum = cashRegisterManager.CalculateAPrice(productView, quantity);
-            var pourcentDiscountValue = cashRegisterManager.CalculateAPourcentDiscount(pourcentDTxtBox, sum);
-            var discountValue = cashRegisterManager.CalculateADiscount(discountTxtBox);
-            var totalDiscountValue = cashRegisterManager.CalculateTotalPourcentDAndDiscount(pourcentDiscountValue, discountValue);
-            var totalDiscountPriceValue = cashRegisterManager.CalculateADiscountPrice(sum, totalDiscountValue);
+            double sum = cashRegisterManager.CalculateAPrice(productView, quantity);
+            double pourcentDiscountValue = cashRegisterManager.CalculateAPourcentDiscount(pourcentDTxtBox, sum);
+            double discountValue = cashRegisterManager.CalculateADiscount(discountTxtBox);
+            double totalDiscountValue = cashRegisterManager.CalculateTotalPourcentDAndDiscount(pourcentDiscountValue, discountValue);
+            double totalDiscountPriceValue = cashRegisterManager.CalculateADiscountPrice(sum, totalDiscountValue);
 
             Ticket.NameSeller = LoginManager.LoginSession.UserName;
             Ticket.Recipe += totalDiscountPriceValue;
@@ -87,7 +77,7 @@ namespace BusinessLogicLayer
 
         public void MakeTheTicketPaymentsMethod()
         {
-            foreach (var paymentMethod in PaymentMethods)
+            foreach (PaymentMethod paymentMethod in PaymentMethods)
             {
                 Ticket.PaymentMethods.Add(paymentMethod);
             }
@@ -95,9 +85,9 @@ namespace BusinessLogicLayer
 
         public int CalculateTicketNumber()
         {
-            var invoicesList = LoadInvoiceDataBase();
-            var lastTicket = invoicesList.Last();
-            var refToSum = lastTicket.TicketRef.Substring(11);
+            List<Invoice> invoicesList = LoadInvoiceDataBase();
+            Invoice lastTicket = invoicesList.Last();
+            string refToSum = lastTicket.TicketRef.Substring(11);
             int newTicketRef = Convert.ToInt32(refToSum) + 1;
             Ticket.TicketRef = newTicketRef.ToString();
             return newTicketRef;

@@ -17,10 +17,6 @@ namespace BusinessLogicLayer
             _stockRepository = new StockRepository();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<IEnumerable<ProductView>> AddProductsInRows()
         {
             return _stockRepository.GetAll()
@@ -35,20 +31,6 @@ namespace BusinessLogicLayer
                                        Price = p.Price,
                                        Quantity = s.Quantity
                                    }));
-
-            //var dbContext = new StockContext();
-            //return (from p in dbContext.Products
-            //        join s in dbContext.ProductStocks
-            //        on p.ProductId equals s.ProductStockId
-            //        where s.Quantity <= 10
-            //        select new ProductView
-            //        {
-            //            ProductId = p.ProductId,
-            //            Reference = p.Reference,
-            //            Name = p.Name,
-            //            Price = p.Price,
-            //            Quantity = s.Quantity
-            //        }).ToList();
         }
     }
 }

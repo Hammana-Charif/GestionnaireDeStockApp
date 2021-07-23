@@ -62,15 +62,7 @@ namespace BusinessLogicLayer
 
         public int SetTheProductLineJoinId(Invoice ticket)
         {
-            int value;
-            if (ticket.PaymentMethods.Count == 0)
-            {
-                value = 0;
-            }
-            else
-            {
-                value = ticket.PaymentMethods.Last().PaymentMethodJoinId + 1;
-            }
+            int value = ticket.PaymentMethods.Count == 0 ? 0 : ticket.PaymentMethods.Last().PaymentMethodJoinId + 1;
             return value;
         }
     }

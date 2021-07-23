@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer;
 using DataTransfertObject;
+using DataTransfertObject.DataGridView;
 using GestionnaireDeStockApp.Windows;
 using System;
 using System.Windows;
@@ -16,21 +17,21 @@ namespace GestionnaireDeStockApp
     {
         public static Payment Payment { get; set; } = new Payment();
 
-        CashRegisterManager CashRegisterManager { get; }
+        public CashRegisterManager CashRegisterManager { get; }
 
-        readonly InvoiceManager InvoiceManager = new InvoiceManager();
-        readonly MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
-        readonly PaymentMethod PaymentMethod = new PaymentMethod();
+        private readonly InvoiceManager InvoiceManager = new InvoiceManager();
+        private readonly MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
+        private readonly PaymentMethod PaymentMethod = new PaymentMethod();
 
         public SalesManagementPage()
         {
             CashRegisterManager = new CashRegisterManager();
             InitializeComponent();
-            SearchAnArticleToSellTxtBox.Focus();
+            _ = SearchAnArticleToSellTxtBox.Focus();
             ArticleToSellDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
             ShowSellerNameOnTicket();
             ShowDateOnTicket();
-            ShowTicketNumber();
+            _ = ShowTicketNumber();
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,7 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -75,7 +76,7 @@ namespace GestionnaireDeStockApp
             SearchAnArticleToSellTxtBox.GotFocus += SearchAnArticleToSellTxtBox_GotFocus;
             if (SearchAnArticleToSellTxtBox.Text == string.Empty)
             {
-                ProductViewManager.JoinProductAndProductStockTables();
+                _ = ProductViewManager.JoinProductAndProductStockTables();
             }
         }
 
@@ -84,17 +85,17 @@ namespace GestionnaireDeStockApp
             try
             {
                 SalesParametersWindow salesParametersWindow = new SalesParametersWindow();
-                salesParametersWindow.ShowDialog();
+                _ = salesParametersWindow.ShowDialog();
 
                 if (salesParametersWindow.RightParameters == true)
                 {
                     CalculateTheTicketPrice();
-                    ProductViewManager.JoinProductAndProductStockTables();
+                    _ = ProductViewManager.JoinProductAndProductStockTables();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -103,16 +104,16 @@ namespace GestionnaireDeStockApp
             try
             {
                 CreditCardPaymentWindow creditCardPaymentWindow = new CreditCardPaymentWindow(Payment);
-                creditCardPaymentWindow.ShowDialog();
+                _ = creditCardPaymentWindow.ShowDialog();
 
-                if (creditCardPaymentWindow.CloseWithPayment == true && Convert.ToDouble(creditCardPaymentWindow.CBTxtBox.Text) > 0)
+                if (creditCardPaymentWindow.CloseWithPayment && Convert.ToDouble(creditCardPaymentWindow.CBTxtBox.Text) > 0)
                 {
                     ShowACBPayment();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -121,15 +122,15 @@ namespace GestionnaireDeStockApp
             try
             {
                 MoneyPaymentWindow moneyPaymentWindow = new MoneyPaymentWindow(Payment);
-                moneyPaymentWindow.ShowDialog();
-                if (moneyPaymentWindow.CloseWithPayment == true && Convert.ToDouble(moneyPaymentWindow.MoneyTxtBox.Text) > 0)
+                _ = moneyPaymentWindow.ShowDialog();
+                if (moneyPaymentWindow.CloseWithPayment && Convert.ToDouble(moneyPaymentWindow.MoneyTxtBox.Text) > 0)
                 {
                     ShowAMoneyPayment();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -138,15 +139,15 @@ namespace GestionnaireDeStockApp
             try
             {
                 ChequePaymentWindow chequePaymentWindow = new ChequePaymentWindow(Payment);
-                chequePaymentWindow.ShowDialog();
-                if (chequePaymentWindow.CloseWithPayment == true && Convert.ToDouble(chequePaymentWindow.ChqTxtBox.Text) > 0)
+                _ = chequePaymentWindow.ShowDialog();
+                if (chequePaymentWindow.CloseWithPayment && Convert.ToDouble(chequePaymentWindow.ChqTxtBox.Text) > 0)
                 {
                     ShowAChequePayment();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -156,14 +157,14 @@ namespace GestionnaireDeStockApp
             {
                 GiftChequeWindow giftChequeWindow = new GiftChequeWindow(Payment);
                 giftChequeWindow.ShowDialog();
-                if (giftChequeWindow.CloseWithPayment == true && Convert.ToDouble(giftChequeWindow.AmountGiftChqTxtBox.Text) > 0)
+                if (giftChequeWindow.CloseWithPayment && Convert.ToDouble(giftChequeWindow.AmountGiftChqTxtBox.Text) > 0)
                 {
                     ShowAGiftChqPayment();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -176,11 +177,11 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                //Not yet implemented
+                throw new NotImplementedException();
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -241,15 +242,15 @@ namespace GestionnaireDeStockApp
                 {
                     if (Math.Round(Payment.TotalToPay, 2) > 0)
                     {
-                        MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
+                        _ = MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
                     }
                     else
                     {
-                        MessageBox.Show("Vente terminée! Le ticket a été validé.");
+                        _ = MessageBox.Show("Vente terminée! Le ticket a été validé.");
                         ProductStockManager ProductStockManager = new ProductStockManager();
                         ProductStockManager.EditProductQuantity(InvoiceManager);
-                        MethodPaymentManager.SetThePaymentMethod(InvoiceManager, PaymentMethod, Payment);
-                        InvoiceManager.SaveInvoiceToDataBase();
+                        _ = MethodPaymentManager.SetThePaymentMethod(InvoiceManager, PaymentMethod, Payment);
+                        _ = InvoiceManager.SaveInvoiceToDataBase();
                         ResetTheTicket();
                         ArticleToSellDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
                     }
@@ -257,7 +258,7 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -265,15 +266,15 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var input = CheckInputService.CheckStringTypeInput(SearchAnArticleToSellTxtBox);
-                if (input == true)
+                bool input = CheckInputService.CheckStringTypeInput(SearchAnArticleToSellTxtBox);
+                if (input)
                 {
                     ArticleToSellDataGrid.ItemsSource = ProductManager.GetProductByGlobalResearch(SearchAnArticleToSellTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -304,13 +305,13 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
         private string ShowTicketNumber()
         {
-            var ticketRef = InvoiceManager.CalculateTicketNumber();
+            int ticketRef = InvoiceManager.CalculateTicketNumber();
 
             string numFormat = "0000.##";
             return InvoiceManager.Ticket.TicketRef = TicketNumTxtBox.Text = $"{DateTime.Now.ToShortDateString()}/{ticketRef.ToString(numFormat)}";
@@ -321,11 +322,11 @@ namespace GestionnaireDeStockApp
             try
             {
                 string CBPaymentType = "Paiement CB:";
-                SetAShowPayment(Payment.CBPayment, CBPaymentType);
+                _ = SetAShowPayment(Payment.CBPayment, CBPaymentType);
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -334,11 +335,11 @@ namespace GestionnaireDeStockApp
             try
             {
                 string MoneyPaymentType = "Paiement espèces:";
-                SetAShowPayment(Payment.MoneyPayment, MoneyPaymentType);
+                _ = SetAShowPayment(Payment.MoneyPayment, MoneyPaymentType);
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -347,11 +348,11 @@ namespace GestionnaireDeStockApp
             try
             {
                 string ChequePaymentType = "Paiement chèque:";
-                SetAShowPayment(Payment.ChequePayment, ChequePaymentType);
+                _ = SetAShowPayment(Payment.ChequePayment, ChequePaymentType);
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -360,11 +361,11 @@ namespace GestionnaireDeStockApp
             try
             {
                 string giftChqPaymentType = "Paiement chèque cadeau:";
-                SetAShowPayment(Payment.GiftChequePayment, giftChqPaymentType);
+                _ = SetAShowPayment(Payment.GiftChequePayment, giftChqPaymentType);
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
@@ -372,13 +373,13 @@ namespace GestionnaireDeStockApp
         {
             if (payment > Payment.TotalToPay || payment < 0)
             {
-                MessageBox.Show("Le montant est incorrect");
+                _ = MessageBox.Show("Le montant est incorrect");
             }
             else
             {
                 if (payment > 0)
                 {
-                    MethodPaymentManager.CalculateAPayment(Payment, payment);
+                    _ = MethodPaymentManager.CalculateAPayment(Payment, payment);
                     PaymentMethodTxtBlock.Text += $"{paymentType}\n";
                     PaymentTxtBlock.Text += $"{Math.Round(payment, 2)}€\n";
                     RestToPayTxtBlock.Text = $"{Math.Round(Payment.TotalToPay, 2)}€";
@@ -391,7 +392,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var selectedRow = ProductManager.SelectAselectedProductLine(InvoiceDataGrid.CurrentCell.Item);
+                InvoiceView selectedRow = ProductManager.SelectAselectedProductLine(InvoiceDataGrid.CurrentCell.Item);
                 if (selectedRow != null)
                 {
                     if (MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -406,7 +407,7 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
     }

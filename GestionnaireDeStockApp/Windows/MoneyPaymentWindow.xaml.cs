@@ -11,16 +11,15 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MoneyPaymentWindow : Window
     {
-        private double MoneyAmount;
         public bool CloseWithPayment { get; set; }
-        public double MoneyAmount1 { get => MoneyAmount; set => MoneyAmount = value; }
+        public double MoneyAmount1 { get; set; }
 
         public MoneyPaymentWindow(Payment payment)
         {
             InitializeComponent();
 
             MoneyTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
-            MoneyTxtBox.Focus();
+            _ = MoneyTxtBox.Focus();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -83,26 +82,26 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CheckInputService.CheckDoubleTypeInput(MoneyTxtBox);
+                _ = CheckInputService.CheckDoubleTypeInput(MoneyTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || MoneyTxtBox.Text == "")
                 {
-                    MoneyAmount = 0;
+                    MoneyAmount1 = 0;
                 }
                 else
                 {
                     SalesManagementPage.Payment.MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
-                    MoneyAmount = Convert.ToDouble(MoneyTxtBox.Text);
+                    MoneyAmount1 = Convert.ToDouble(MoneyTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
 
         private void MoneyTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
     }
 }

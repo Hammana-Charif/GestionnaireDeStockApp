@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,7 +15,7 @@ namespace GestionnaireDeStockApp.Windows
         {
             InitializeComponent();
             QuantityTxtBox.Text = ProductViewManager.CurrentItemSelected.Quantity.ToString();
-            QuantityTxtBox.Focus();
+            _ = QuantityTxtBox.Focus();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -89,12 +90,12 @@ namespace GestionnaireDeStockApp.Windows
 
         private void DefectiveTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
 
         private void QuantityTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer;
 using GestionnaireDeStockApp.Pages;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,9 +13,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool MenuClosed = true;
-
-        LoginWindow loginWindow;
+        private bool MenuClosed = true;
+        private LoginWindow loginWindow;
 
         public MainWindow()
         {
@@ -50,10 +50,10 @@ namespace GestionnaireDeStockApp
         public void ConnectToSession()
         {
             loginWindow = new LoginWindow();
-            loginWindow.ShowDialog();
+            _ = loginWindow.ShowDialog();
 
             LeftMenu.IsEnabled = LoginManager.LoginSession.ConnectionState;
-            if (LeftMenu.IsEnabled == true)
+            if (LeftMenu.IsEnabled)
             {
                 ShowAllItems();
                 ShowCurrentUserName(LoginManager.LoginSession.UserName);
@@ -91,29 +91,10 @@ namespace GestionnaireDeStockApp
 
         private void ResizeWindow_Click(object sender, RoutedEventArgs e)
         {
-            if (IsMaximized)
-            {
-                WindowState = WindowState.Normal;
-            }
-            else
-            {
-                WindowState = WindowState.Maximized;
-            }
+            WindowState = IsMaximized ? WindowState.Normal : WindowState.Maximized;
         }
-        bool IsMaximized
-        {
-            get
-            {
-                if (WindowState == WindowState.Maximized)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+
+        private bool IsMaximized => WindowState == WindowState.Maximized;
 
         private void AlertButton_Click(object sender, RoutedEventArgs e)
         {
@@ -129,7 +110,7 @@ namespace GestionnaireDeStockApp
         private void ShowLoginWindow()
         {
             LoginWindow logWindow = new LoginWindow();
-            logWindow.ShowDialog();
+            _ = logWindow.ShowDialog();
             ShowCurrentUserName(LoginManager.LoginSession.UserName);
         }
 
@@ -183,7 +164,7 @@ namespace GestionnaireDeStockApp
                 }
                 else
                 {
-                    MessageBox.Show("Veuillez vous connecter.");
+                    _ = MessageBox.Show("Veuillez vous connecter.");
                 }
             }
             else
@@ -225,14 +206,14 @@ namespace GestionnaireDeStockApp
                 if (e.Key == Key.F7)
                 {
                     AccountCreationWindow accountCreationWindow = new AccountCreationWindow();
-                    accountCreationWindow.ShowDialog();
+                    _ = accountCreationWindow.ShowDialog();
                 }
             }
         }
 
         private void DashBoardButton_Click(object sender, RoutedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
     }
 }

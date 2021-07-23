@@ -20,7 +20,7 @@ namespace GestionnaireDeStockApp.Windows
             InitializeComponent();
 
             AmountGiftChqTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
-            AmountGiftChqTxtBox.Focus();
+            _ = AmountGiftChqTxtBox.Focus();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -63,7 +63,7 @@ namespace GestionnaireDeStockApp.Windows
 
         private void GiftChqTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Not yet implemented
+            throw new NotImplementedException();
         }
 
         private void GiftChqTxtBox_KeyDown(object sender, KeyEventArgs e)
@@ -88,10 +88,10 @@ namespace GestionnaireDeStockApp.Windows
         {
             try
             {
-                CheckInputService.CheckDoubleTypeInput(AmountGiftChqTxtBox);
+                _ = CheckInputService.CheckDoubleTypeInput(AmountGiftChqTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || AmountGiftChqTxtBox.Text == "")
                 {
-                    GiftChqAmount =  0;
+                    GiftChqAmount = 0;
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace GestionnaireDeStockApp.Windows
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                _ = MessageBox.Show(exception.Message);
             }
         }
     }

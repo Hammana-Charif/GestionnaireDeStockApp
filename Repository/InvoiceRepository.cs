@@ -9,7 +9,7 @@ namespace Repository
     {
         public new IEnumerable<Invoice> GetAll()
         {
-            var dbContext = new StockContext();
+            StockContext dbContext = new StockContext();
             return dbContext.Invoices.Select(i => new Invoice
             {
                 InvoiceId = i.InvoiceId,

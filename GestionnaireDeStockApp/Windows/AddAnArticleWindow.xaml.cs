@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using DataTransfertObject;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -143,12 +144,12 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var checkedChar = CheckInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
-                if (checkedChar == true)
+                bool checkedChar = CheckInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
+                if (checkedChar)
                 {
                     if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddExclPriceTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
+                        Product newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddExclPriceTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
                         if (newProduct == null)
                         {
                             AddAnArticleTxtBlockInfo.FontSize = 12;

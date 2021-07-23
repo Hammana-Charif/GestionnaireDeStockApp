@@ -1,14 +1,12 @@
-﻿namespace BusinessLogicLayer
+﻿using System;
+
+namespace BusinessLogicLayer
 {
-    class GiftChequeManager
+    public class GiftChequeManager
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
         public void SetAGiftChequeName(string name)
         {
-            //Not Yet implemented
+            throw new NotImplementedException();
         }
     }
 }

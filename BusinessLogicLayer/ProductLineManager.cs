@@ -8,22 +8,14 @@ namespace BusinessLogicLayer
     {
         public int SetTheProductLineId(Invoice ticket)
         {
-            int value;
-            if (ticket.ProductLines.Count == 0)
-            {
-                value = 0;
-            }
-            else
-            {
-                value = ticket.ProductLines.Last().ProductLineJoinId + 1;
-            }
+            int value = ticket.ProductLines.Count == 0 ? 0 : ticket.ProductLines.Last().ProductLineJoinId + 1;
             return value;
         }
 
         public ProductLine SetAProductLine(Invoice ticket, ObservableCollection<ProductLine> productLinesList)
         {
             ProductLine productLine = null;
-            foreach (var productLineToSearch in ticket.ProductLines)
+            foreach (ProductLine productLineToSearch in ticket.ProductLines)
             {
                 productLine = productLineToSearch;
                 productLinesList.Add(productLine);

@@ -9,7 +9,7 @@ namespace BusinessLogicLayer
 {
     public static class ProductManager
     {
-        public static InvoiceView selectedProductLine { get; private set; }
+        public static InvoiceView SelectedProductLine { get; private set; }
 
         public static Product AddANewProductByRefChecking(string newProductRef,
                                                           string newProductName,
@@ -18,11 +18,11 @@ namespace BusinessLogicLayer
                                                           string newProductQuantity)
         {
             Product newProduct = null;
-            var dbContext = new StockContext();
+            StockContext dbContext = new StockContext();
             newProduct = dbContext.Products.Where(c => c.Reference == newProductRef).FirstOrDefault();
             if (newProduct == null)
             {
-                var product = new Product
+                Product product = new Product
                 {
                     Reference = newProductRef,
                     Name = newProductName,
@@ -36,8 +36,8 @@ namespace BusinessLogicLayer
                         }
                     }
                 };
-                dbContext.Products.Add(product);
-                dbContext.SaveChanges();
+                _ = dbContext.Products.Add(product);
+                _ = dbContext.SaveChanges();
                 newProduct = product;
             }
             return newProduct;
@@ -46,9 +46,9 @@ namespace BusinessLogicLayer
         public static List<ProductView> GetProductByPriceInterval(string textBoxMin, string textBoxMax)
         {
             List<ProductView> productViewsList = new List<ProductView>();
-            var productsList = ProductViewManager.JoinProductAndProductStockTables();
+            List<ProductView> productsList = ProductViewManager.JoinProductAndProductStockTables();
 
-            foreach (var product in productsList)
+            foreach (ProductView product in productsList)
             {
                 if (product.Price >= Convert.ToDouble(textBoxMin) && product.Price <= Convert.ToDouble(textBoxMax))
                 {
@@ -68,9 +68,9 @@ namespace BusinessLogicLayer
         public static List<ProductView> GetProductByGlobalResearch(string input)
         {
             List<ProductView> productViewsList = new List<ProductView>();
-            var productsList = ProductViewManager.JoinProductAndProductStockTables();
+            List<ProductView> productsList = ProductViewManager.JoinProductAndProductStockTables();
 
-            foreach (var product in productsList)
+            foreach (ProductView product in productsList)
             {
                 if (product.Reference.ToLowerInvariant().Contains(input.ToLowerInvariant())
                     || product.Name.ToLowerInvariant().Contains(input.ToLowerInvariant())
@@ -92,7 +92,7 @@ namespace BusinessLogicLayer
 
         public static InvoiceView SelectAselectedProductLine(object selectedRow)
         {
-            return selectedProductLine = (InvoiceView)selectedRow;
+            return SelectedProductLine = (InvoiceView)selectedRow;
         }
 
         public static void RemoveAProductToDataBase(ProductView selectedItem)
@@ -100,14 +100,14 @@ namespace BusinessLogicLayer
             Product productToDelete = null;
             ProductStock productStockToDelete = null;
 
-            var dbContext = new StockContext();
+            StockContext dbContext = new StockContext();
             productToDelete = dbContext.Products.Where(c => c.ProductId == selectedItem.ProductId).FirstOrDefault();
             productStockToDelete = dbContext.ProductStocks.Where(c => c.ProductStockId == selectedItem.ProductId).FirstOrDefault();
             if (productToDelete != null && productStockToDelete != null)
             {
-                dbContext.Remove(productToDelete);
-                dbContext.Remove(productStockToDelete);
-                dbContext.SaveChanges();
+                _ = dbContext.Remove(productToDelete);
+                _ = dbContext.Remove(productStockToDelete);
+                _ = dbContext.SaveChanges();
             }
         }
 
@@ -116,7 +116,7 @@ namespace BusinessLogicLayer
             Product productToEdit = null;
             ProductStock productStockToEdit = null;
 
-            var dbContext = new StockContext();
+            StockContext dbContext = new StockContext();
             productToEdit = dbContext.Products.Where(c => c.Reference == selectedItem.Reference).FirstOrDefault();
             productStockToEdit = dbContext.ProductStocks.Where(c => c.ProductStockId == selectedItem.ProductId).FirstOrDefault();
 
@@ -127,9 +127,9 @@ namespace BusinessLogicLayer
                 productToEdit.ExclTaxPrice = selectedItem.ExclTaxPrice;
                 productToEdit.Price = selectedItem.Price;
                 productStockToEdit.Quantity = selectedItem.Quantity;
-                dbContext.Update(productStockToEdit);
-                dbContext.Update(productToEdit);
-                dbContext.SaveChanges();
+                _ = dbContext.Update(productStockToEdit);
+                _ = dbContext.Update(productToEdit);
+                _ = dbContext.SaveChanges();
             }
         }
     }

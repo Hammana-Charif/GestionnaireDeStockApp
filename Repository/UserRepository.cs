@@ -2,7 +2,7 @@
 
 namespace Repository
 {
-    class UserRepository : Repository<User>
+    public class UserRepository : Repository<User>
     {
 
     }

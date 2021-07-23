@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using DataTransfertObject;
 using System.Linq;
 
 namespace BusinessLogicLayer
@@ -7,17 +8,17 @@ namespace BusinessLogicLayer
     {
         public void EditProductQuantity(InvoiceManager invoiceManager)
         {
-            var ticket = invoiceManager.Ticket;
-            foreach (var productLine in ticket.ProductLines)
+            Invoice ticket = invoiceManager.Ticket;
+            foreach (ProductLine productLine in ticket.ProductLines)
             {
-                var dbContext = new StockContext();
-                var productToCheck = dbContext.Products.Where(p => p.Name == productLine.Product.Name).FirstOrDefault();
+                StockContext dbContext = new StockContext();
+                Product productToCheck = dbContext.Products.Where(p => p.Name == productLine.Product.Name).FirstOrDefault();
 
                 if (productToCheck != null)
                 {
-                    var newProductQuantity = dbContext.ProductStocks.Where(p => p.ProductStockId == productToCheck.ProductId).FirstOrDefault();
+                    ProductStock newProductQuantity = dbContext.ProductStocks.Where(p => p.ProductStockId == productToCheck.ProductId).FirstOrDefault();
                     newProductQuantity.Quantity -= productLine.Quantity;
-                    dbContext.SaveChanges();
+                    _ = dbContext.SaveChanges();
                 }
             }
         }

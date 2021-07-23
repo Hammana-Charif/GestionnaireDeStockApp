@@ -9,7 +9,7 @@ namespace Repository
     {
         public new IEnumerable<Company> GetAll()
         {
-            var dbContext = new StockContext();
+            StockContext dbContext = new StockContext();
             return dbContext.Companies.Select(c => new Company
             {
                 Siren = c.Siren,
