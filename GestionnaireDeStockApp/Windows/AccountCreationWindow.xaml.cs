@@ -26,7 +26,7 @@ namespace GestionnaireDeStockApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (LoginManager.LoginSession.ConnectionState == true)
+            if (LoginManager.LoginSession.ConnectionState)
             {
                 Close();
             }
@@ -171,7 +171,7 @@ namespace GestionnaireDeStockApp
                     using StockContext dbContext = new StockContext();
                     DbSet<User> users = dbContext.Users;
 
-                    User newUser = new User()
+                    User newUser = new User
                     {
                         Name = NameTxtBox.Text,
                         Surname = SurNameTxtBox.Text,
